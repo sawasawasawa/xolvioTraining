@@ -15,17 +15,18 @@ module.exports = {
         {
             "type": "src",
             files: [
-                "src/imports/domain/appointment-service.js",
-                "src/imports/domain/parent.js",
-                "src/imports/domain/student.js",
-                "src/imports/domain/student-factory.js",
-                // "src/imports/**/*.js",
+                // "src/imports/domain/appointment-service.js",
+                // "src/imports/domain/parent.js",
+                // "src/imports/domain/student.js",
+                // "src/imports/domain/student-factory.js",
+                "src/imports/**/!(*spec).js"
             ]
         },
         {
             type: "specs",
             files: [
-                "src/imports/**/student-spec.js",
+                // "src/imports/**/student-spec.js",
+                "src/imports/**/*spec.js"
             ]
         }
     ]
