@@ -9,7 +9,9 @@ describe('Appointment Service', function () {
                 studentName: 'Jon',
                 parentEmail: 'parent@jon.com'
             });
-            this.appointmentTime = new Date();
+            this.appointmentTime = new Date(); // fails sometimes
+            // this.appointmentTime = new Date(Date.now() + 2000); // works always (current date + 2 seconds
+            // console.log('this.appointmentTime', new Date(), this.appointmentTime);
         });
         it('should register the appointment', function () {
             const appointment = AppointmentService.book(this.appointmentTime, this.student);
