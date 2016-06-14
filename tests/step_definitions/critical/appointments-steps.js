@@ -19,13 +19,14 @@ module.exports = function () {
 
     this.When(/^I book the appointment for "([^"]*)"'s parents for "([^"]*)" at "([^"]*)"$/,
         function (studentName, date, time) {
-            appointment = navigateToAppointmentFor(studentName);
-            appointment.setDate(date);
-            appointment.setTime(time);
+            this.appointment = navigateToAppointmentFor(studentName);
+            this.appointment.setDate(date);
+            this.appointment.setTime(time);
+            this.appointment.book();
         });
 
     this.Then(/^I receive confirmation of the booking$/, function () {
-        expect(appointments.confirmation.isVisible()).toBe(true);
+        expect(this.appointment.confirmation.isVisible()).toBe(true);
     });
 
 };
