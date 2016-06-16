@@ -26,7 +26,8 @@ module.exports = function () {
         });
 
     this.Then(/^I receive confirmation of the booking$/, function () {
-        expect(this.appointment.confirmation.isVisible()).toBe(true);
+      expect(this.appointment.instance.confirmation.isExisting()).toBe(true);
+        expect(this.appointment.instance.confirmation.getHTML()).toInclude("GREAT SUCCESS!");
     });
 
 };

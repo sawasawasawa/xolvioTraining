@@ -1,5 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import classNames from 'classNames'
 
 export default class Appointment extends React.Component {
   constructor(props) {
@@ -7,44 +8,57 @@ export default class Appointment extends React.Component {
 
     this.state = {
       date: '',
-      time: ''
+      time: '',
+      confirmation: null,
     };
 
     this.submitAppointment = this.submitAppointment.bind(this);
   }
+
   render() {
     return (
-      <form className="appointment" onSubmit={this.submitAppointment}>
-        <input className="appointment__date" value={this.state.date}/>
-        <input className="appointment__time" value={this.state.time}/>
-        <input type="submit" className="appointment__submit"/>
-      </form>
+      <div className="appointment">
+        <form onSubmit={this.submitAppointment}>
+          <input className="appointment__date" value={this.state.date}/>
+          <input className="appointment__time" value={this.state.time}/>
+          <input type="submit" className="appointment__submit"/>
+        </form>
+        {this.state.confirmation ?
+          <AppointmentConfirmation status={this.state.confirmation}/>
+          :
+          null
+        }
+      </div>
     )
   }
+
   submitAppointment() {
-    Meteor.call('bookAppointment', {
+    let confirmation = Meteor.call('bookAppointment', {
       date: new Date(this.state.date + ' ' + this.state.time)
     });
+    this.setState({ confirmation: confirmation });
   }
 }
 
-//
-// export class Counter extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {count: props.initialCount};
-//     this.tick = this.tick.bind(this);
-//   }
-//   tick() {
-//     this.setState({count: this.state.count + 1});
-//   }
-//   render() {
-//     return (
-//       <div onClick={this.tick}>
-//     Clicks: {this.state.count}
-//   </div>
-//   );
-//   }
-// }
-// Counter.propTypes = { initialCount: React.PropTypes.number };
-// Counter.defaultProps = { initialCount: 0 };
+class AppointmentConfirmation extends React.Component {
+  render() {
+    const statusMap = {
+      success: {
+        className: 'succeeded',
+        message: 'GREAT SUCCESS!',
+      },
+      failure: {
+        className: 'failed',
+        message: 'GREAT FAILURE!',
+      }
+    };
+    
+    const status = statusMap[this.props.status];
+    
+    const classes = classNames({
+      appointment__confirmation: true,
+      [status.className]: true,
+    });
+    return (<div className={classes}>{status.message}</div>);
+  }
+}
