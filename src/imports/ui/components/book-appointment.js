@@ -1,6 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import classNames from 'classNames'
+import StudentFactory from '../../domain/student-factory';
 
 export default class Appointment extends React.Component {
   constructor(props) {
@@ -13,14 +14,26 @@ export default class Appointment extends React.Component {
     };
 
     this.submitAppointment = this.submitAppointment.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
+    this.onChangeTime = this.onChangeTime.bind(this);
+  }
+
+  onChangeDate(event) {
+    const date = event.target.value;
+    this.setState({ date });
+  }
+
+  onChangeTime(event) {
+    const time = event.target.value;
+    this.setState({ time });
   }
 
   render() {
     return (
       <div className="appointment">
         <form onSubmit={this.submitAppointment}>
-          <input className="appointment__date" value={this.state.date}/>
-          <input className="appointment__time" value={this.state.time}/>
+          <input className="appointment__date" value={this.state.date} onChange={this.onChangeDate}/>
+          <input className="appointment__time" value={this.state.time} onChange={this.onChangeTime}/>
           <input type="submit" className="appointment__submit"/>
         </form>
         {this.state.confirmation ?
@@ -32,11 +45,21 @@ export default class Appointment extends React.Component {
     )
   }
 
-  submitAppointment() {
-    let confirmation = Meteor.call('bookAppointment', {
-      date: new Date(this.state.date + ' ' + this.state.time)
+  submitAppointment(event) {
+    event.preventDefault();
+    let confirmation;
+    let that = this;
+    Meteor.call('bookAppointment', {
+      date: new Date(this.state.date + ' ' + this.state.time),
+      student: StudentFactory.createStudent()
+    }, function (error, result) {
+      if (!error) {
+        confirmation = result.isValid ? 'success' : 'failure';
+        that.setState({ confirmation });
+      } else {
+        console.log('error PINGWIN', error);
+      }
     });
-    this.setState({ confirmation: confirmation });
   }
 }
 
@@ -52,9 +75,9 @@ class AppointmentConfirmation extends React.Component {
         message: 'GREAT FAILURE!',
       }
     };
-    
+
     const status = statusMap[this.props.status];
-    
+
     const classes = classNames({
       appointment__confirmation: true,
       [status.className]: true,

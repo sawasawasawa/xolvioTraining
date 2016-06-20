@@ -13,6 +13,8 @@ global.shallow = shallow;
 import proxyquire from 'proxyquire';
 const proxyquireStrict = proxyquire.noCallThru();
 
+import StudentFactory from '../../domain/student-factory';
+
 const stubs = {
   meteor: {
     Meteor: {
@@ -51,28 +53,32 @@ describe('Appointment', function () {
   });
   describe('submit', function () {
     describe("successful", function () {
-      let date;
+      let date, student, bookAppointmentCallback;
       beforeEach(() => {
         Component.setState({
           date: '01/02/2003',
           time: '02:10',
         });
         date = new Date('01/02/2003 02:10');
-        
-        meteorCallSpy.andReturn("success");
+        student = StudentFactory.createStudent();
+
+        // meteorCallSpy.andReturn({isValid: true});
+        bookAppointmentCallback = () => ({isValid: true});
+        meteorCallSpy.andCall(bookAppointmentCallback);
         Component.find('form').simulate('submit');
       });
       it('should book the appointment using the appointment service', function () {
-        
-        expect(meteorCallSpy).toHaveBeenCalledWith('bookAppointment', { date });
+        expect(meteorCallSpy.getLastCall().arguments).toInclude('bookAppointment');
+        expect(meteorCallSpy.getLastCall().arguments).toInclude({ date, student });
       });
-      it('should show a confirmation for successful bookings', function () {
+        it('should show a confirmation for successful bookings', function () {
         expect(Component.find('.appointment__confirmation .succeeded').length).toEqual(1);
       });
     });
     it('should show an error if there was an error booking', function () {
-      meteorCallSpy.andReturn("failure");
-      
+      // meteorCallSpy.andReturn("failure");
+      meteorCallSpy.andCall(() => ({isValid: false}));
+
       Component.find('form').simulate('submit');
       expect(Component.find('.appointment__confirmation .failed').length).toEqual(1);
     });

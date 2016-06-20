@@ -14,7 +14,6 @@ export default class Appointment {
         this.instance = browser.element(this.selectors.root);
         this.instance.date = new DateElement(this.instance.element(this.selectors.date));
         this.instance.time = new TimeElement(this.instance.element(this.selectors.time));
-        this.instance.confirmation = this.instance.element(this.selectors.confirmation);
     }
     setDate(date) {
         this.instance.date.set(date);
@@ -23,6 +22,8 @@ export default class Appointment {
         this.instance.time.set(time);
     }
     book() {
-        this.instance.click(this.selectors.submit)
+        this.instance.click(this.selectors.submit);
+        browser.waitForExist(this.selectors.confirmation, 2000);
+        this.instance.confirmation = this.instance.element(this.selectors.confirmation);
     }
 }
