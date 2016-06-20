@@ -61,9 +61,9 @@ describe('Appointment', function () {
         });
         date = new Date('01/02/2003 02:10');
         student = StudentFactory.createStudent();
-
+        
         // meteorCallSpy.andReturn({isValid: true});
-        bookAppointmentCallback = () => ({isValid: true});
+        bookAppointmentCallback = () => ({ isValid: true });
         meteorCallSpy.andCall(bookAppointmentCallback);
         Component.find('form').simulate('submit');
       });
@@ -71,15 +71,13 @@ describe('Appointment', function () {
         expect(meteorCallSpy.getLastCall().arguments).toInclude('bookAppointment');
         expect(meteorCallSpy.getLastCall().arguments).toInclude({ date, student });
       });
-        it('should show a confirmation for successful bookings', function () {
+      it('should show a confirmation for successful bookings', function () {
+        Component.setState({confirmation: "success"});
         expect(Component.find('.appointment__confirmation .succeeded').length).toEqual(1);
       });
     });
     it('should show an error if there was an error booking', function () {
-      // meteorCallSpy.andReturn("failure");
-      meteorCallSpy.andCall(() => ({isValid: false}));
-
-      Component.find('form').simulate('submit');
+      Component.setState({confirmation: "failure"});
       expect(Component.find('.appointment__confirmation .failed').length).toEqual(1);
     });
   });

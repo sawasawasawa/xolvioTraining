@@ -21,13 +21,40 @@ const bookAppointment = proxyquireStrict(
   }
 );
 
+function validDate() {
+  return new Date(new Date().valueOf() + 10000000000);
+}
+
 describe('Booking Appointment', function () {
-  describe('should return', function () {
-    it('true if the date is in the future', function () {
-      const _dateInTheFuture = new Date(new Date().valueOf() + 10000000000);
-      const _fakeStudent = StudentFactory.createStudent();
-      expect(bookAppointment({date: _dateInTheFuture, student: _fakeStudent}).isValid).toBe(true);
+  describe('for valid student', function () {
+    let student;
+    before(function() {
+      student = StudentFactory.createStudent();
     });
-    // test for isValid false
+    it('should return isValid as true if the date is in the future', function () {
+      const _dateInTheFuture = validDate();
+      expect(bookAppointment({date: _dateInTheFuture, student}).isValid).toBe(true);
+    });
+    it('should return isValid as false if the date is in the past', function() {
+      const _dateInThePast = new Date(new Date().valueOf() - 10000000000);
+      expect(bookAppointment({date: _dateInThePast, student}).isValid).toBe(false);
+    });
   });
+  describe('for valid date', function() {
+    let date;
+    before(function() {
+      date = validDate();
+    });
+    it('should return isValid as true if the student has a name and a valid parent email', function() {
+      const _validStudent = StudentFactory.createStudent();
+      expect(bookAppointment({date, student: _validStudent}).isValid).toBe(true);
+    });
+    it('should return isValid as false if there is no email for the students parent', function() {
+      const _studentWithNoParentsEmail = {
+        name: "Bill Gates",
+        parent: {}
+      };
+      expect(bookAppointment({date, student: _studentWithNoParentsEmail}).isValid).toBe(false);
+    });
+  })
 });

@@ -28,6 +28,7 @@ export default class Appointment extends React.Component {
     this.setState({ time });
   }
 
+
   render() {
     return (
       <div className="appointment">
