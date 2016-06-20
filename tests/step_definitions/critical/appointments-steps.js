@@ -28,13 +28,11 @@ module.exports = function () {
       this.appointment = navigateToAppointmentFor(studentName);
       this.appointment.setDate(date);
       this.appointment.setTime(time);
-      this.appointment.book();
+      this.appointmentConfirmation = this.appointment.book();
     });
 
   this.Then(/^I receive confirmation of the booking$/, function () {
-    const { confirmation } = this.appointment.instance;
-    expect(confirmation.isExisting()).toBe(true);
-    expect(confirmation.getHTML()).toInclude("GREAT SUCCESS!");
+    expect(this.appointmentConfirmation.getMessage()).toBe("GREAT SUCCESS!");
   });
 
 };

@@ -33,7 +33,6 @@ describe('Appointment Service', function () {
 
             expect(appointment.isValid).toBe(false);
             expect(appointment.status).toBe('emailDoesNotExist');
-
         });
     });
 });

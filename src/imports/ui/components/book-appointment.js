@@ -28,7 +28,6 @@ export default class Appointment extends React.Component {
     this.setState({ time });
   }
 
-
   render() {
     return (
       <div className="appointment">
@@ -50,6 +49,7 @@ export default class Appointment extends React.Component {
     event.preventDefault();
     let confirmation;
     let that = this;
+    // TODO extract handler and unit test
     Meteor.call('bookAppointment', {
       date: new Date(this.state.date + ' ' + this.state.time),
       student: StudentFactory.createStudent()
@@ -80,9 +80,13 @@ class AppointmentConfirmation extends React.Component {
     const status = statusMap[this.props.status];
 
     const classes = classNames({
-      appointment__confirmation: true,
+      'appointment-confirmation': true,
       [status.className]: true,
     });
-    return (<div className={classes}>{status.message}</div>);
+    return (
+      <div className={classes}>
+        <span className="appointment-confirmation__message">{status.message}</span>
+      </div>
+    );
   }
 }

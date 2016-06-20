@@ -1,4 +1,4 @@
-import Appointment from '../page_objects/pages/book-appointment';
+import Appointment from '../page_objects/components/book-appointment';
 import url from 'url';
 
 export function navigateToAppointmentFor(student) {

@@ -73,12 +73,12 @@ describe('Appointment', function () {
       });
       it('should show a confirmation for successful bookings', function () {
         Component.setState({confirmation: "success"});
-        expect(Component.find('.appointment__confirmation .succeeded').length).toEqual(1);
+        expect(Component.find('.appointment-confirmation .succeeded').length).toEqual(1);
       });
     });
     it('should show an error if there was an error booking', function () {
       Component.setState({confirmation: "failure"});
-      expect(Component.find('.appointment__confirmation .failed').length).toEqual(1);
+      expect(Component.find('.appointment-confirmation .failed').length).toEqual(1);
     });
   });
 });
