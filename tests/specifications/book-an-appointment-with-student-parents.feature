@@ -9,8 +9,8 @@ Feature: Book an appointment with student parents
     Given "Jon"'s parents provided the contact email "parent@child.net"
     And "Jon" has been registered as a student
     When I book the appointment for "Jon"'s parents for "6/30/2016" at "16:45"
-    Then I receive confirmation of the booking
-    And the appointment is added to my diary
+    Then the appointment with "Jon"'s parents is added to my diary
+    And I receive confirmation of the booking
     #And the parents receive a confirmation email
 
 

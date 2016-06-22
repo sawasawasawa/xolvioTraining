@@ -34,7 +34,7 @@ export default class AppointmentService {
         }
 
         if (appointmentResponse.isValid) {
-            appointmentResponse.time = date;
+            appointmentResponse.date = date;
             appointmentResponse.student = student;
         }
 

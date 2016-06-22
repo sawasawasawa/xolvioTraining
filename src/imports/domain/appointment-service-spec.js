@@ -18,7 +18,7 @@ describe('Appointment Service', function () {
 
             expect(appointment.student).toBe(this.student);
             expect(appointment.isValid).toBe(true);
-            expect(appointment.time).toBe(this.appointmentTime);
+            expect(appointment.date).toBe(this.appointmentTime);
         });
         it('should not register an appointment in the past', function () {
             const appointmentTime = new Date('01/01/2010');

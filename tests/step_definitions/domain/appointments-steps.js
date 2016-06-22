@@ -29,10 +29,12 @@ module.exports = function () {
     this.Then(/^I receive confirmation of the booking$/, function () {
         expect(this.appointment.isValid).toBe(true);
     });
-    
-    this.Then(/^the appointment is added to my diary$/, function () {
-        expect(this.teachers.me.diary.appointments).toContain(this.appointment);
+
+    this.Then(/^the appointment with "([^"]*)"'s parents is added to my diary$/, function (studentName) {
+        expect(this.teachers.me.diary.getAppointment(this.appointment.date)).toEqual({
+            student: this.students[studentName]
+        });
     });
-    
-    
+
+
 };
