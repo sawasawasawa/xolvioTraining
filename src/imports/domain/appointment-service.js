@@ -8,7 +8,7 @@ function parentEmailExistsFor(student) {
 }
 
 export default class AppointmentService {
-    static book(date, student) {
+    static book(date, student, teacher) {
         let appointmentResponse = {
             isValid: true,
             // status: [],
@@ -17,19 +17,27 @@ export default class AppointmentService {
         if (!dateInTheFuture(date)) {
             appointmentResponse.status = "dateInThePast";
             appointmentResponse.isValid = false;
+            return appointmentResponse;
         }
 
         if (!parentEmailExistsFor(student)) {
             appointmentResponse.status = "emailDoesNotExist";
             appointmentResponse.isValid = false;
+            return appointmentResponse;
+        }
+
+        const result = teacher.diary.addAppointment({date, student});
+        appointmentResponse.status = result.status;
+        if (result.error) {
+            appointmentResponse.isValid = false;
+            return appointmentResponse;
         }
 
         if (appointmentResponse.isValid) {
-            appointmentResponse.email = student.parent.email;
             appointmentResponse.time = date;
+            appointmentResponse.student = student;
         }
-        
-        return appointmentResponse;
 
+        return appointmentResponse;
     }
 }
