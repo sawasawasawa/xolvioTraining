@@ -1,5 +1,7 @@
 import { navigateToAppointmentFor } from './support/helpers/navigation';
 import { createStudent } from './support/fixtures/student'
+import { createTeacher } from './support/fixtures/teacher'
+import { login } from './support/fixtures/accounts'
 
 const expect = require('expect');
 
@@ -15,19 +17,16 @@ module.exports = function () {
       studentName,
       parentEmail: this.students[studentName].parentEmail
     });
-    // const newStudent = createStudent({
-    //   studentName,
-    //   parentEmail: this.students[studentName].parentEmail
-    // });
-    // Students.insert(newStudent);
-    // this.students[studentName] = Students.findOne({_id: ""});
   });
 
   this.When(/^I book the appointment for "([^"]*)"'s parents for "([^"]*)" at "([^"]*)"$/,
     function (studentName, date, time) {
-      this.appointment = navigateToAppointmentFor(studentName);
-      this.appointment.setDate(date);
-      this.appointment.setTime(time);
+      const teacher = createTeacher();
+      login(teacher);
+      this.date = new Date(date + ' ' + time);
+      const appointment = navigateToAppointmentFor(studentName);
+      appointment.setDate(date);
+      appointment.setTime(time);
       this.appointmentConfirmation = this.appointment.book();
     });
 
@@ -35,4 +34,13 @@ module.exports = function () {
     expect(this.appointmentConfirmation.getMessage()).toBe("GREAT SUCCESS!");
   });
 
+  this.Then(/^the appointment with "([^"]*)"'s parents is added to my diary$/, function (studentName) {
+    const teacherDiary = new TeacherDiary();
+    const appointmentItems = teacherDiary.getAppointmentItems();
+    expect(appointmentItems.length).toBe(1);
+    const appointmentItem  = appointmentItems[0];
+    expect(appointmentItem.getDate()).toBe(this.date);
+    expect(appointmentItem.getStudentName()).toBe(studentName);
+    expect(appointmentItem.getParentEmail()).toBe(this.students[studentName].parentEmail);
+  });
 };

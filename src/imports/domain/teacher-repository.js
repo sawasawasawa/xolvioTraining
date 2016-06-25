@@ -1,0 +1,1 @@
+// should return a teacher object with the diary with data from the DB

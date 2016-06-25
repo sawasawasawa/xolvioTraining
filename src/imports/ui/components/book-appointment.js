@@ -12,7 +12,13 @@ export default class Appointment extends React.Component {
       time: '',
       confirmation: null,
     };
-
+    // HOMEWORK make this work
+    this.elementClassNames = {
+      root: 'appointment',
+      date: 'appointment__date',
+      time: 'appointment__time',
+      submit: 'appointment__submit',
+    };
     this.submitAppointment = this.submitAppointment.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
@@ -30,7 +36,7 @@ export default class Appointment extends React.Component {
 
   render() {
     return (
-      <div className="appointment">
+      <div className={this.elementClassNames.root}>
         <form onSubmit={this.submitAppointment}>
           <input className="appointment__date" value={this.state.date} onChange={this.onChangeDate}/>
           <input className="appointment__time" value={this.state.time} onChange={this.onChangeTime}/>

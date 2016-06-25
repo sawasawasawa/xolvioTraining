@@ -36,6 +36,7 @@ export default class AppointmentService {
         if (appointmentResponse.isValid) {
             appointmentResponse.date = date;
             appointmentResponse.student = student;
+            // HOMEWORK save the teacher using the teacher repository
         }
 
         return appointmentResponse;
