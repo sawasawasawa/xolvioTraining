@@ -59,6 +59,8 @@ export default class Appointment extends React.Component {
     Meteor.call('bookAppointment', {
       date: new Date(this.state.date + ' ' + this.state.time),
       student: StudentFactory.createStudent()
+      //TODO homework pass a teacher, should be based on a logged in user?
+      //teacher: Teachers.findOne(Meteor.user().teacherId);
     }, function (error, result) {
       if (!error) {
         confirmation = result.isValid ? 'success' : 'failure';

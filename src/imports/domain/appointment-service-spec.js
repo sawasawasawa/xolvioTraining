@@ -6,7 +6,12 @@ import expect from 'expect';
 describe('Appointment Service', function () {
     describe('book', function () {
         beforeEach(function () {
-            this.teacher = TeacherFactory.create();
+            this.teacher = TeacherFactory.create({
+                id: 'foo',
+                diary: {
+                    appointments: {},
+                }
+            });
             this.student = StudentFactory.createStudent({
                 studentName: 'Jon',
                 parentEmail: 'parent@jon.com'
@@ -38,7 +43,7 @@ describe('Appointment Service', function () {
         });
         it('should add the appointment in the teachers diary', function () {
             const appointment = AppointmentService.book(this.appointmentTime, this.student, this.teacher);
-            
+
             expect(appointment.isValid).toBe(true);
             expect(appointment.status).toBe('booked');
         });

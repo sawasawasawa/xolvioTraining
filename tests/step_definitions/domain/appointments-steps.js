@@ -21,7 +21,7 @@ module.exports = function () {
     this.When(/^I book the appointment for "([^"]*)"'s parents for "([^"]*)" at "([^"]*)"$/,
         function (studentName, date, time) {
             this.teachers = this.teachers || {};
-            this.teachers.me = TeacherFactory.create();
+            this.teachers.me = TeacherFactory.create({});
             const _appointmentTime = new Date(`${date} ${time}`);
             this.appointment = AppointmentService.book(_appointmentTime, this.students[studentName], this.teachers.me);
         });

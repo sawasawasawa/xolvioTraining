@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import AppointmentService from '../domain/appointment-service';
+import TeacherRepository from '../domain/teacher-repository';
 
 // const callBookAppointment = ({date, student}) => new Promise((resolve, reject) {
 //
@@ -14,6 +15,6 @@ export default function bookAppointment({date, student}) {
   const teacher = TeacherRepository.get(teacherId);
   // call teh domain servide to create the appintment
   const appointnent = AppointmentService.book(date, student, teacher);
-  
+
   return AppointmentService.book(date, student);
 }

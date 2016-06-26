@@ -29,7 +29,7 @@ describe('Booking Appointment', function () {
   describe('for valid student', function () {
     let student;
     before(function() {
-      student = StudentFactory.createStudent();
+      student = StudentFactory.createStudent({parentEmail: "bill@microsoft.com", studentName: "Bill Gates"});
     });
     it('should return isValid as true if the date is in the future', function () {
       const _dateInTheFuture = validDate();
@@ -46,7 +46,7 @@ describe('Booking Appointment', function () {
       date = validDate();
     });
     it('should return isValid as true if the student has a name and a valid parent email', function() {
-      const _validStudent = StudentFactory.createStudent();
+      const _validStudent = StudentFactory.createStudent({parentEmail: "bill@microsoft.com", studentName: "Bill Gates"});
       expect(bookAppointment({date, student: _validStudent}).isValid).toBe(true);
     });
     it('should return isValid as false if there is no email for the students parent', function() {

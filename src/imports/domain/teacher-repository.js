@@ -1,1 +1,13 @@
-// should return a teacher object with the diary with data from the DB
+import { Teachers } from '../infrastructure/collections';
+import TeacherFactory from './teacher-factory';
+
+export default class TeacherRepository {
+  static get(teacherId) {
+    const rawTeacher = Teachers.findOne(teacherId);
+    return TeacherFactory.create(rawTeacher);
+  }
+
+  static insert(teacher) {
+    Teachers.insert(teacher);
+  }
+}

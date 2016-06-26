@@ -1,4 +1,5 @@
 export default class Diary {
+  //TODO HOMEWORK this constructor should accept a rawDiary
   constructor() {
     this.appointments = {};
   }
