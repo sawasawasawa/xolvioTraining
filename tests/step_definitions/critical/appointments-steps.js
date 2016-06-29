@@ -1,7 +1,7 @@
 import { navigateToAppointmentFor } from './support/helpers/navigation';
 import { createStudent } from './support/fixtures/student'
 import { createTeacher } from './support/fixtures/teacher'
-import { login } from './support/fixtures/accounts'
+// import { login } from './support/fixtures/accounts'
 
 const expect = require('expect');
 
