@@ -29,7 +29,7 @@ module.exports = function () {
       appointment.setDate(date);
       appointment.setTime(time);
       this.appointmentConfirmation = appointment.book();
-      
+
     });
 
   this.Then(/^I receive confirmation of the booking$/, function () {
@@ -37,10 +37,12 @@ module.exports = function () {
   });
 
   this.Then(/^the appointment with "([^"]*)"'s parents is added to my diary$/, function (studentName) {
+    //TODO HOMEWORK we want to have diary page object to check that (need to check UI not DB in critical steps)
     console.log('this.teacher.diary PINGWIN', this.teacher.diary);
     const teacherDiary = new Diary(this.teacher.diary);
     console.log('teacherDiary PINGWIN', teacherDiary.getAppointments);
     const appointmentItems = teacherDiary.getAppointments();
+    console.log('appointmentItems PINGWIN', appointmentItems);
     expect(appointmentItems.length).toBe(1);
     const appointmentItem  = appointmentItems[0];
     expect(appointmentItem.getDate()).toBe(this.date);

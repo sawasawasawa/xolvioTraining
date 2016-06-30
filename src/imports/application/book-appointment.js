@@ -14,6 +14,5 @@ export default function bookAppointment({date, student, teacherId}) {
   // use the teacher repository to get the teacher + their diary (do we need a diary repo?)
   
   const teacher = TeacherRepository.get(teacherId);
-  var book = AppointmentService.book(date, student, teacher);
-  return book;
+  return AppointmentService.book(date, student, teacher);
 }
