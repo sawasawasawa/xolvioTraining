@@ -1,5 +1,6 @@
 export default class Diary {
   //TODO HOMEWORK this constructor should accept a rawDiary
+  //TODO HOMEWORK create a heklper to map db objects to class cobejces
   constructor(rawDiary) {
     console.log("Raw", rawDiary);
     this.appointments = {};

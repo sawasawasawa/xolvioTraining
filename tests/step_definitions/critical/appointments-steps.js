@@ -29,6 +29,7 @@ module.exports = function () {
       appointment.setDate(date);
       appointment.setTime(time);
       this.appointmentConfirmation = appointment.book();
+      
     });
 
   this.Then(/^I receive confirmation of the booking$/, function () {

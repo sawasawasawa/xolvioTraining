@@ -4,7 +4,15 @@ import StudentFactory from './student-factory';
 
 describe('Diary', function () {
   describe('constructor', function() {
-    
+    it('should create an empty diary with no appointments', function () {
+      const diary = new Diary();
+      expect(diary.appointments).toEqual({});
+    });
+    it('should create a diary from raw diary', function () {
+      const rawDiary = { appointments: 'something' };
+      const diary = new Diary(rawDiary);
+      expect(diary.appointments).toBe(rawDiary.appointments);
+    });
   })
   describe('addAppointment', function () {
     describe('when the time is available', function () {
@@ -85,10 +93,10 @@ describe('Diary', function () {
       _appointments.forEach((appointment) => {
         diary.addAppointment({date: appointment.date, student: appointment.student});
       });
-      
+
       const actualAppointments = diary.getAppointments();
       expect(actualAppointments.length).toEqual(2);
-      
+
       expect(actualAppointments[1]).toEqual({student: _appointments[1].student});
     })
   })

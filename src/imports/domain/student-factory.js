@@ -6,8 +6,7 @@ export default class StudentFactory {
         const parent = new Parent(parentEmail);
         return new Student(studentName, parent);
     }
-    static createFromDbObject({parentEmail, studentName}) {
-        return this.createStudent({parentEmail, studentName});
-        //TODO IMPROVE IT
+    static createFromDbObject(student) {
+        return this.createStudent({studentName: student.name, parentEmail: student.parent.email});
     }
 }

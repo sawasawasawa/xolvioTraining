@@ -11,14 +11,23 @@ const stubs = {
       methods: () => {
       }
     },
+    Mongo: {
+      Collection: () => {}
+    },
+    '@global': true
   },
 };
 
 //const meteorCallSpy = expect.spyOn(stubs.meteor.Meteor, 'call');
+const teacherRepositoryStub = {
+  get: () => TeacherFactory.create()
+};
 
 const bookAppointment = proxyquireStrict(
   './book-appointment', {
-    'meteor/meteor': stubs.meteor
+    'meteor/meteor': stubs.meteor,
+    'meteor/mongo': stubs.meteor,
+    '../domain/teacher-repository': teacherRepositoryStub
   }
 );
 
@@ -31,11 +40,11 @@ describe('Booking Appointment', function () {
     let student;
     before(function() {
       student = StudentFactory.createStudent({parentEmail: "bill@microsoft.com", studentName: "Bill Gates"});
-      teacher = TeacherFactory.create();
+      this.teacherId = "doesntMatter";
     });
-    it('should return isValid as true if the date is in the future', function () {
+    it.only('should return isValid as true if the date is in the future', function () {
       const _dateInTheFuture = validDate();
-      expect(bookAppointment({date: _dateInTheFuture, student, teacher}).isValid).toBe(true);
+      expect(bookAppointment({date: _dateInTheFuture, student, teacherId: this.teacherId}).isValid).toBe(true);
     });
     it('should return isValid as false if the date is in the past', function() {
       const _dateInThePast = new Date(new Date().valueOf() - 10000000000);

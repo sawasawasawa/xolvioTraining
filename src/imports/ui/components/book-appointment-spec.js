@@ -31,11 +31,9 @@ const stubs = {
 
 const studentRepositoryStub = {
   get: () => StudentFactory.createStudent({ parentEmail: "parent@home.com", studentName: "Jon" })
-}
+};
 
-const teacherRepositoryStub = {
-  get: () => TeacherFactory.create()
-}
+const getDataFromURLStub =() => ({teacherId: "doesntMatter", studentName: "id2"});
 
 const meteorCallSpy = expect.spyOn(stubs.meteor.Meteor, 'call');
 
@@ -44,7 +42,7 @@ const BookAppointment = proxyquireStrict(
     'meteor/meteor': stubs.meteor,
     'meteor/mongo': stubs.meteor,
     '../../domain/student-repository': studentRepositoryStub,
-    '../../domain/teacher-repository': teacherRepositoryStub
+    '../helpers/get-data-from-url': getDataFromURLStub
   }
 );
 
@@ -69,7 +67,7 @@ describe('Appointment', function () {
   });
   describe('submit', function () {
     describe("successful", function () {
-      let date, student, bookAppointmentCallback, teacher;
+      let date, student, bookAppointmentCallback, teacherId;
       beforeEach(() => {
         Component.setState({
           date: '01/02/2003',
@@ -77,7 +75,7 @@ describe('Appointment', function () {
         });
         date = new Date('01/02/2003 02:10');
         student = StudentFactory.createStudent({parentEmail: "parent@home.com", studentName: "Jon"});
-        teacher = TeacherFactory.create();
+        teacherId = 'doesntMatter';
         // meteorCallSpy.andReturn({isValid: true});
         bookAppointmentCallback = () => ({ isValid: true });
         meteorCallSpy.andCall(bookAppointmentCallback);
@@ -85,7 +83,7 @@ describe('Appointment', function () {
       });
       it('should book the appointment using the appointment service', function () {
         expect(meteorCallSpy.getLastCall().arguments).toInclude('bookAppointment');
-        expect(meteorCallSpy.getLastCall().arguments).toInclude({ date, student, teacher});
+        expect(meteorCallSpy.getLastCall().arguments).toInclude({ date, student, teacherId});
       });
       it('should show a confirmation for successful bookings', function () {
         Component.setState({confirmation: "success"});

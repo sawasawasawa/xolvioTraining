@@ -1,6 +1,7 @@
+import expect from 'expect';
 import StudentFactory from './student-factory';
 import Student from './student';
-import expect from 'expect';
+import Parent from './parent';
 
 describe('Student Factory', function () {
     describe('create student', function () {
@@ -18,15 +19,27 @@ describe('Student Factory', function () {
         });
     });
     describe('create student from db object', function () {
-        it('should create a student based on raw student object', function () {
-            const rawStudent = {
+        beforeEach(function() {
+            this.rawStudent = {
                 name: 'jonathan',
                 parent: {
                     email: 'father@home.com',
                 }
             };
-
-            expect(StudentFactory.createFromDbObject(rawStudent) instanceof Student).toBe(true);
+            this.student = StudentFactory.createFromDbObject(this.rawStudent);
         });
+        it('should create a student based on raw student object', function () {
+            expect(this.student instanceof Student).toBe(true);
+        });
+        it('should create a student with a parent', function() {
+            expect(this.student.parent instanceof Parent).toBe(true, "parent was not of a Parent type");
+        })
+        it('should create a student with a parent emails from the db', function() {
+            console.log('this.student.parent PINGWIN', this.student.parent);
+            expect(this.student.parent.email).toBe(this.rawStudent.parent.email);
+        })
+        it('should create a student with the name from the db', function() {
+            expect(this.student.name).toBe(this.rawStudent.name);
+        })
     });
 });
