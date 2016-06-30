@@ -13,11 +13,14 @@ describe('Teacher Factory', function () {
     };
   });
   describe('create', function () {
-    it('should create a teacher', function () {
-      expect(TeacherFactory.create(this.rawTeacher) instanceof Teacher).toBe(true);
+    it('should create a basic teacher', function () {
+      expect(TeacherFactory.create() instanceof Teacher).toBe(true);
+    });
+    it('should create a teacher based on raw teacher object', function () {
+      expect(TeacherFactory.createFromDbObject(this.rawTeacher) instanceof Teacher).toBe(true);
     });
     it('should create a diary', function () {
-      const teacher = TeacherFactory.create(this.rawTeacher);
+      const teacher = TeacherFactory.create();
       expect(teacher.diary instanceof Diary).toBe(true);
     });
   });

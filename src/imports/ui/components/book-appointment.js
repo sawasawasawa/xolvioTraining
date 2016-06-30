@@ -1,7 +1,8 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import classNames from 'classNames'
-import StudentFactory from '../../domain/student-factory';
+import StudentRepository from '../../domain/student-repository';
+import TeacherRepository from '../../domain/teacher-repository';
 
 export default class Appointment extends React.Component {
   constructor(props) {
@@ -55,12 +56,12 @@ export default class Appointment extends React.Component {
     event.preventDefault();
     let confirmation;
     let that = this;
+    let {studentName, teacherId} = getDataFromUrl();
     // TODO extract handler and unit test
     Meteor.call('bookAppointment', {
       date: new Date(this.state.date + ' ' + this.state.time),
-      student: StudentFactory.createStudent()
-      //TODO homework pass a teacher, should be based on a logged in user?
-      //teacher: Teachers.findOne(Meteor.user().teacherId);
+      student: StudentRepository.get(studentName),
+      teacher: TeacherRepository.get(teacherId)
     }, function (error, result) {
       if (!error) {
         confirmation = result.isValid ? 'success' : 'failure';
@@ -96,5 +97,13 @@ class AppointmentConfirmation extends React.Component {
         <span className="appointment-confirmation__message">{status.message}</span>
       </div>
     );
+  }
+}
+
+function getDataFromUrl() {
+  const _url = window.location.pathname.split("/");
+  return {
+    teacherId: _url.pop(),
+    studentName: _url.pop()
   }
 }

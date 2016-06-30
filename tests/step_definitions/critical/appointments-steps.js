@@ -1,7 +1,8 @@
 import { navigateToAppointmentFor } from './support/helpers/navigation';
 import { createStudent } from './support/fixtures/student'
 import { createTeacher } from './support/fixtures/teacher'
-import { login } from './support/fixtures/accounts'
+import Diary from '../../../src/imports/domain/diary'
+// import { login } from './support/fixtures/accounts'
 
 const expect = require('expect');
 
@@ -21,13 +22,13 @@ module.exports = function () {
 
   this.When(/^I book the appointment for "([^"]*)"'s parents for "([^"]*)" at "([^"]*)"$/,
     function (studentName, date, time) {
-      const teacher = createTeacher();
-      login(teacher);
+      this.teacher = createTeacher();
+      //login(teacher);
       this.date = new Date(date + ' ' + time);
-      const appointment = navigateToAppointmentFor(studentName);
+      const appointment = navigateToAppointmentFor(studentName, this.teacher.id);
       appointment.setDate(date);
       appointment.setTime(time);
-      this.appointmentConfirmation = this.appointment.book();
+      this.appointmentConfirmation = appointment.book();
     });
 
   this.Then(/^I receive confirmation of the booking$/, function () {
@@ -35,8 +36,10 @@ module.exports = function () {
   });
 
   this.Then(/^the appointment with "([^"]*)"'s parents is added to my diary$/, function (studentName) {
-    const teacherDiary = new TeacherDiary();
-    const appointmentItems = teacherDiary.getAppointmentItems();
+    console.log('this.teacher.diary PINGWIN', this.teacher.diary);
+    const teacherDiary = new Diary(this.teacher.diary);
+    console.log('teacherDiary PINGWIN', teacherDiary.getAppointments);
+    const appointmentItems = teacherDiary.getAppointments();
     expect(appointmentItems.length).toBe(1);
     const appointmentItem  = appointmentItems[0];
     expect(appointmentItem.getDate()).toBe(this.date);

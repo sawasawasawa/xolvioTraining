@@ -51,6 +51,7 @@
     "shelljs": "^0.5.3",
     "test-runner-config": "^0.5.0",
     "testdom": "2.0.0",
+    "underscore": "^1.8.3",
     "velocity-cli": "^0.4.3",
     "watchify": "^3.7.0"
   },

@@ -1,4 +1,5 @@
 import StudentFactory from './student-factory';
+import Student from './student';
 import expect from 'expect';
 
 describe('Student Factory', function () {
@@ -14,6 +15,18 @@ describe('Student Factory', function () {
                 parentEmail: 'blah@example.com'
             });
             expect(student.parent.email).toBe('blah@example.com');
+        });
+    });
+    describe('create student from db object', function () {
+        it('should create a student based on raw student object', function () {
+            const rawStudent = {
+                name: 'jonathan',
+                parent: {
+                    email: 'father@home.com',
+                }
+            };
+
+            expect(StudentFactory.createFromDbObject(rawStudent) instanceof Student).toBe(true);
         });
     });
 });

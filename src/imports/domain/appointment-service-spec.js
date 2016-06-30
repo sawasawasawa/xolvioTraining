@@ -6,12 +6,7 @@ import expect from 'expect';
 describe('Appointment Service', function () {
     describe('book', function () {
         beforeEach(function () {
-            this.teacher = TeacherFactory.create({
-                id: 'foo',
-                diary: {
-                    appointments: {},
-                }
-            });
+            this.teacher = TeacherFactory.create();
             this.student = StudentFactory.createStudent({
                 studentName: 'Jon',
                 parentEmail: 'parent@jon.com'

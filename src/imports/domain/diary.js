@@ -1,7 +1,11 @@
 export default class Diary {
   //TODO HOMEWORK this constructor should accept a rawDiary
-  constructor() {
+  constructor(rawDiary) {
+    console.log("Raw", rawDiary);
     this.appointments = {};
+    if(rawDiary) {
+      this.appointments = rawDiary.appointments;
+    }
   }
 
   addAppointment({ date, student }) {
@@ -17,9 +21,14 @@ export default class Diary {
     }
     return result;
   }
-  
+
   getAppointment(date) {
+    // _.filter(this.appointments, (appointment) => { appointment.date === date});
     return this.appointments[date.getTime()];
   }
-
+  getAppointments() {
+    return Object.keys(this.appointments).map((date) => {
+      return this.appointments[date];
+    });
+  }
 }

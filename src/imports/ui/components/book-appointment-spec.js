@@ -14,6 +14,7 @@ import proxyquire from 'proxyquire';
 const proxyquireStrict = proxyquire.noCallThru();
 
 import StudentFactory from '../../domain/student-factory';
+import TeacherFactory from '../../domain/teacher-factory';
 
 const stubs = {
   meteor: {
@@ -21,14 +22,29 @@ const stubs = {
       call: () => {
       }
     },
+    Mongo: {
+      Collection: () => {}
+    },
+    '@global': true
   },
 };
+
+const studentRepositoryStub = {
+  get: () => StudentFactory.createStudent({ parentEmail: "parent@home.com", studentName: "Jon" })
+}
+
+const teacherRepositoryStub = {
+  get: () => TeacherFactory.create()
+}
 
 const meteorCallSpy = expect.spyOn(stubs.meteor.Meteor, 'call');
 
 const BookAppointment = proxyquireStrict(
   './book-appointment', {
-    'meteor/meteor': stubs.meteor
+    'meteor/meteor': stubs.meteor,
+    'meteor/mongo': stubs.meteor,
+    '../../domain/student-repository': studentRepositoryStub,
+    '../../domain/teacher-repository': teacherRepositoryStub
   }
 );
 
@@ -53,15 +69,15 @@ describe('Appointment', function () {
   });
   describe('submit', function () {
     describe("successful", function () {
-      let date, student, bookAppointmentCallback;
+      let date, student, bookAppointmentCallback, teacher;
       beforeEach(() => {
         Component.setState({
           date: '01/02/2003',
           time: '02:10',
         });
         date = new Date('01/02/2003 02:10');
-        student = StudentFactory.createStudent();
-        
+        student = StudentFactory.createStudent({parentEmail: "parent@home.com", studentName: "Jon"});
+        teacher = TeacherFactory.create();
         // meteorCallSpy.andReturn({isValid: true});
         bookAppointmentCallback = () => ({ isValid: true });
         meteorCallSpy.andCall(bookAppointmentCallback);
@@ -69,7 +85,7 @@ describe('Appointment', function () {
       });
       it('should book the appointment using the appointment service', function () {
         expect(meteorCallSpy.getLastCall().arguments).toInclude('bookAppointment');
-        expect(meteorCallSpy.getLastCall().arguments).toInclude({ date, student });
+        expect(meteorCallSpy.getLastCall().arguments).toInclude({ date, student, teacher});
       });
       it('should show a confirmation for successful bookings', function () {
         Component.setState({confirmation: "success"});
