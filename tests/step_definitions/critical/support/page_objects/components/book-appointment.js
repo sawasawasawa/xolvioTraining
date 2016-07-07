@@ -1,15 +1,16 @@
-import DateElement from '../elements/date.js';
-import TimeElement from '../elements/time.js';
+import DateElement from '../elements/date-input.js';
+import TimeElement from '../elements/time-input.js';
 import AppointmentConfirmation from './appointment-confirmation';
 
 // TODO make sure appintment is renamed to book appointment everwhere so we have a good DSL
 export default class Appointment {
     constructor() {
+        const root = '.appointment';
         this.selectors = {
-            root: '.appointment',
-            date: '.appointment__date',
-            time: '.appointment__time',
-            submit: '.appointment__submit',
+            root: root,
+            date: `${root}__date`,
+            time: `${root}__time`,
+            submit: `${root}__submit`,
         };
         this.instance = browser.element(this.selectors.root);
         this.instance.date = new DateElement(this.instance.element(this.selectors.date));
@@ -21,7 +22,7 @@ export default class Appointment {
     setTime(time) {
         this.instance.time.set(time);
     }
-    
+
     book() {
         this.instance.click(this.selectors.submit);
         return new AppointmentConfirmation();

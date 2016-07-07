@@ -1,4 +1,3 @@
-import TeacherDiary from './teacher-diary'
 require('testdom')('<html><body></body></html>');
 
 import ReactWithAddons from 'react/dist/react-with-addons';
@@ -11,15 +10,22 @@ import { mount, shallow } from 'enzyme';
 global.mount = mount;
 global.shallow = shallow;
 
+import TeacherDiary from './teacher-diary'
+import AppointmentList from './appointment-list'
+
 describe('Teacher Diary', function () {
   describe('render', function () {
-    beforeEach(function() {
-      this.component = mount(<TeacherDiary />);
+    it('should show the list of appointment items', function () {
+      this.component = shallow(<TeacherDiary/>);
+
+      expect(this.component.find(AppointmentList).length).toBe(1);
     });
-    // HOMEWORK
-    it('should show list of appointment items', function () {
-      fail('Not implemented');
-      // expect(Component.find('.appointment__date').length).toEqual(1);
+    it('should be called when rendering appointmentList', function () {
+      const _appointments = [{some: "thing"}];
+
+      this.component = shallow(<TeacherDiary appointments={_appointments}/>);
+      
+      expect(this.component.find(AppointmentList).props().appointments).toBe(_appointments);
     });
   });
 });

@@ -9,7 +9,8 @@ const stubs = {
       Collection: () => {
         return {
           findOne: () => {},
-          insert: () => {}
+          insert: () => {},
+          update: () => {},
         }
       }
     },
@@ -62,4 +63,14 @@ describe('Teacher Repository', function () {
       expect(Teachers.insert).toHaveBeenCalledWith(this.teacher);
     });
   });
+  // describe('update', function () {
+  //   it('should update the teacher', function () {
+  //     expect.spyOn(Teachers, 'update');
+  //     this.teacher._id = "doesntMatter";
+  //    
+  //     TeacherRepository.update(this.teacher);
+  //    
+  //     expect(Teachers.update).toHaveBeenCalledWith({_id: this.teacher._id}, {$set: {} });
+  //   });
+  // });
 });

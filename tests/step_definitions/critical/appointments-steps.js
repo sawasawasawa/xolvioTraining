@@ -1,7 +1,8 @@
 import { navigateToAppointmentFor } from './support/helpers/navigation';
 import { createStudent } from './support/fixtures/student'
 import { createTeacher } from './support/fixtures/teacher'
-import Diary from '../../../src/imports/domain/diary'
+import TeacherDiary from './support/page_objects/components/teacher-diary';
+// import Diary from '../../../src/imports/domain/diary'
 // import { login } from './support/fixtures/accounts'
 
 const expect = require('expect');
@@ -22,6 +23,7 @@ module.exports = function () {
 
   this.When(/^I book the appointment for "([^"]*)"'s parents for "([^"]*)" at "([^"]*)"$/,
     function (studentName, date, time) {
+      //TODO: move this outside to a Given step? for future (low priority)
       this.teacher = createTeacher();
       //login(teacher);
       this.date = new Date(date + ' ' + time);
@@ -37,16 +39,10 @@ module.exports = function () {
   });
 
   this.Then(/^the appointment with "([^"]*)"'s parents is added to my diary$/, function (studentName) {
-    //TODO HOMEWORK we want to have diary page object to check that (need to check UI not DB in critical steps)
-    console.log('this.teacher.diary PINGWIN', this.teacher.diary);
-    const teacherDiary = new Diary(this.teacher.diary);
-    console.log('teacherDiary PINGWIN', teacherDiary.getAppointments);
-    const appointmentItems = teacherDiary.getAppointments();
-    console.log('appointmentItems PINGWIN', appointmentItems);
-    expect(appointmentItems.length).toBe(1);
-    const appointmentItem  = appointmentItems[0];
-    expect(appointmentItem.getDate()).toBe(this.date);
-    expect(appointmentItem.getStudentName()).toBe(studentName);
-    expect(appointmentItem.getParentEmail()).toBe(this.students[studentName].parentEmail);
+    const teacherDiary = new TeacherDiary();
+
+    const hasAppointment = teacherDiary.hasAppointment(this.students[studentName], this.date);
+
+    expect(hasAppointment).toBeTruthy();
   });
 };

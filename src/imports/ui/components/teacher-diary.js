@@ -1,5 +1,5 @@
 import React from 'react';
-
+import AppointmentList from './appointment-list'
 export default class TeacherDiary extends React.Component {
   constructor(props) {
     super(props);
@@ -8,6 +8,10 @@ export default class TeacherDiary extends React.Component {
   }
   
   render() {
-    return(<div/>);
+    return(
+      <div>
+        <AppointmentList appointments={this.props.appointments} />
+      </div>
+    );
   }
 }
