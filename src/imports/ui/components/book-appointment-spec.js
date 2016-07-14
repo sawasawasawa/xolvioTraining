@@ -64,6 +64,9 @@ describe('Appointment', function () {
     it('should not show a confirmation by default', function () {
       expect(Component.find('.appointment__confirmation').length).toEqual(0);
     });
+    it('should render the teacher diary', function() {
+      expect(Component.find('.teacher-diary').length).toEqual(1);
+    })
   });
   describe('submit', function () {
     describe("successful", function () {

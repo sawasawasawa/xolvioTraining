@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import classNames from 'classNames'
 import StudentRepository from '../../domain/student-repository';
 import getDataFromURL from '../helpers/get-data-from-url';
+import TeacherDiary from './teacher-diary';
 
 export default class Appointment extends React.Component {
   constructor(props) {
@@ -48,6 +49,7 @@ export default class Appointment extends React.Component {
           :
           null
         }
+        <TeacherDiary/>
       </div>
     )
   }

@@ -20,12 +20,23 @@ describe('Teacher Diary', function () {
 
       expect(this.component.find(AppointmentList).length).toBe(1);
     });
-    it('should be called when rendering appointmentList', function () {
+    it('should pass the appointments to the AppointmentList', function () {
       const _appointments = [{some: "thing"}];
 
       this.component = shallow(<TeacherDiary appointments={_appointments}/>);
-      
+
       expect(this.component.find(AppointmentList).props().appointments).toBe(_appointments);
     });
+    it('should render the component with proper root class', function() {
+      this.component = shallow(<TeacherDiary/>);
+
+      expect(this.component.find('.teacher-diary').length).toBe(1);
+    });
+    it('should show the welcoming header for the teacher', function() {
+      this.component = shallow(<TeacherDiary/>);
+  
+      expect(this.component.find('.teacher-diary__header').length).toBe(1);
+      expect(this.component.find('.teacher-diary__header').first().text()).toBe('Teacher Diary');
+    })
   });
 });

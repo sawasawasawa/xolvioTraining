@@ -11,20 +11,55 @@ import { mount, shallow } from 'enzyme';
 global.mount = mount;
 global.shallow = shallow;
 
+// <div className='.appointment-item'><span className='appointment-item___time'></span>..</div>
+
 // HOMEWORK
 describe('Appointment Item', function () {
   describe('render', function () {
-    beforeEach(function() {
-      this.component = mount(<AppointmentItem />);
+    it('should render the component with proper class', function (){
+      const props = {};
+
+      this.component = shallow(<AppointmentItem {...props} />);
+
+      expect(this.component.find('.appointment-item').length).toBe(1);
     });
-    it('should show the time', function () {
-      fail('Not implemented');
+    it('should show the time in correct format', function () {
+      const props = {
+        date: new Date('10/05/2016 14:00').getTime()
+      };
+
+      this.component = shallow(<AppointmentItem {...props} />);
+
+      expect(this.component.find('.appointment-item__date').length).toBe(1);
+      expect(this.component.find('.appointment-item__date').text()).toEqual('10/05/2016 14:00');
     });
     it('should show the student name', function () {
-      fail('Not implemented');
+      const props = {
+        studentName: "Name",
+      };
+
+      this.component = shallow(<AppointmentItem {...props} />);
+
+      expect(this.component.find('.appointment-item__student-name').length).toBe(1);
+      expect(this.component.find('.appointment-item__student-name').text()).toEqual(props.studentName);
+
     });
     it('should show the student parent email', function () {
-      fail('Not implemented');
+      const props = {
+        parentEmail: "parent@home.com",
+      };
+
+      this.component = shallow(<AppointmentItem {...props} />);
+
+      expect(this.component.find('.appointment-item__parent-email').length).toBe(1);
+      expect(this.component.find('.appointment-item__parent-email').text()).toEqual(props.parentEmail);
+    });
+  });
+  describe('parseDate', function () {
+    it('should show a different time in the correct format', function () {
+      const _date = new Date('11/03/2014 08:00').getTime();
+      
+      expect(new AppointmentItem().parseDate(_date)).toEqual('11/03/2014 08:00');
     });
   });
 });

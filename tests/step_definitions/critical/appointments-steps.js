@@ -43,6 +43,6 @@ module.exports = function () {
 
     const hasAppointment = teacherDiary.hasAppointment(this.students[studentName], this.date);
 
-    expect(hasAppointment).toBeTruthy();
+    expect(hasAppointment).toBe(true, 'There are no visible appointments for a given student and date')
   });
 };
