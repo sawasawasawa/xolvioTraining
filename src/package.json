@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "classnames": "^2.2.5",
     "proxyquire": "^1.7.9",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
