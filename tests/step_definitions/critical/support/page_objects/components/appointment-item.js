@@ -9,10 +9,10 @@ export default class AppointmentItem {
     }
 
     get studentName() {
-        return this.instance.element(this.selectors.studentName);
+        return this.instance.getText(this.selectors.studentName);
     }
 
     get date() {
-        return this.instance.element(this.selectors.date);
+        return this.instance.getText(this.selectors.date);
     }
 }

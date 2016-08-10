@@ -7,8 +7,8 @@ export default class AppointmentList extends React.Component {
     this.renderAppointmentItems = this.renderAppointmentItems.bind(this);
   }
   renderAppointmentItems() {
-    return this.props.appointments.map(function(appointment) {
-      return <AppointmentItem appointment={appointment} />;
+    return this.props.appointments.map(function(appointment,index) {
+      return <AppointmentItem key={index} appointment={appointment} />;
     });
   }
   render() {

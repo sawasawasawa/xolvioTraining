@@ -1,10 +1,10 @@
-import React from 'react';
-import { Meteor } from 'meteor/meteor';
-import classNames from 'classNames'
-import StudentRepository from '../../domain/student-repository';
-import AppointmentRepository from '../../domain/appointment-repository';
-import getDataFromURL from '../helpers/get-data-from-url';
-import TeacherDiary from './teacher-diary';
+import React from "react";
+import {Meteor} from "meteor/meteor";
+import classNames from "classNames";
+import StudentRepository from "../../domain/student-repository";
+import getDataFromURL from "../helpers/get-data-from-url";
+import TeacherDiary from "./teacher-diary";
+import TeacherRepository from "../../domain/teacher-repository";
 
 export default class Appointment extends React.Component {
   constructor(props) {
@@ -38,25 +38,31 @@ export default class Appointment extends React.Component {
   }
 
   render() {
-    const {studentName, teacherId} = getDataFromURL();
-    const appointments = AppointmentRepository.get({studentName, teacherId});
-    console.log("PINGWIN: update", appointments);
-    // const appointments = [];
 
+    const {teacherId} = getDataFromURL();
+    let teacher;
+    if (!!teacherId) {
+      teacher = TeacherRepository.get(teacherId);
+    }
     return (
-      <div className={this.elementClassNames.root}>
-        <form onSubmit={this.submitAppointment}>
-          <input className="appointment__date" value={this.state.date} onChange={this.onChangeDate}/>
-          <input className="appointment__time" value={this.state.time} onChange={this.onChangeTime}/>
-          <input type="submit" className="appointment__submit"/>
-        </form>
-        {this.state.confirmation ?
-          <AppointmentConfirmation status={this.state.confirmation}/>
-          :
-          null
-        }
-        <TeacherDiary appointments={appointments}/>
-      </div>
+        <div className={this.elementClassNames.root}>
+          <form onSubmit={this.submitAppointment}>
+            <input className="appointment__date" value={this.state.date} onChange={this.onChangeDate}/>
+            <input className="appointment__time" value={this.state.time} onChange={this.onChangeTime}/>
+            <input type="submit" className="appointment__submit"/>
+          </form>
+          {this.state.confirmation ?
+              <AppointmentConfirmation status={this.state.confirmation}/>
+              :
+              null
+          }
+          { teacher ?
+              <TeacherDiary appointments={teacher.diary.getAppointments()}/>
+              :
+              null
+          }
+
+        </div>
     )
   }
 
@@ -74,19 +80,17 @@ export default class Appointment extends React.Component {
     }, function (error, result) {
       if (!error) {
         confirmation = result.isValid ? 'success' : 'failure';
-        that.setState({ confirmation });
+
         if (confirmation === 'success') {
-          console.log('im in success');
-          AppointmentRepository.insert({
-            studentName,
-            teacherId,
-            date: insertDate
-          });
+          const teacher = TeacherRepository.get(teacherId);
+          teacher.diary.addAppointment({ date: insertDate, student: StudentRepository.get(studentName) })
+          TeacherRepository.update(teacherId, teacher);
         }
+        that.setState({ confirmation });
       } else {
         console.log('error PINGWIN', error);
       }
-    });
+    })
   }
 }
 

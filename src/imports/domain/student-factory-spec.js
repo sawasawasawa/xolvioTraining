@@ -35,7 +35,6 @@ describe('Student Factory', function () {
             expect(this.student.parent instanceof Parent).toBe(true, "parent was not of a Parent type");
         })
         it('should create a student with a parent emails from the db', function() {
-            console.log('this.student.parent PINGWIN', this.student.parent);
             expect(this.student.parent.email).toBe(this.rawStudent.parent.email);
         })
         it('should create a student with the name from the db', function() {

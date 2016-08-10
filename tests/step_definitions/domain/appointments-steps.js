@@ -32,6 +32,7 @@ module.exports = function () {
 
     this.Then(/^the appointment with "([^"]*)"'s parents is added to my diary$/, function (studentName) {
         expect(this.teachers.me.diary.getAppointment(this.appointment.date)).toEqual({
+            date: this.appointment.date,
             student: this.students[studentName]
         });
     });

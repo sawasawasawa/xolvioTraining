@@ -2,7 +2,6 @@ export default class Diary {
   //TODO HOMEWORK this constructor should accept a rawDiary
   //TODO HOMEWORK create a heklper to map db objects to class cobejces
   constructor(rawDiary) {
-    console.log("Raw", rawDiary);
     this.appointments = {};
     if(rawDiary) {
       this.appointments = rawDiary.appointments;
@@ -14,7 +13,7 @@ export default class Diary {
     };
 
     if (!this.appointments[date.getTime()]) {
-      this.appointments[date.getTime()] = { student };
+      this.appointments[date.getTime()] = { student, date };
       result.status = 'booked';
     } else {
       result.status = 'conflict';

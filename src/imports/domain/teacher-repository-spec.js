@@ -39,7 +39,6 @@ describe('Teacher Repository', function () {
   });
   describe('get', function () {
     it('should get the teacher by id', function () {
-      console.log(Teachers)
       expect.spyOn(Teachers, 'findOne').andReturn(this.teacher);
 
       const actualTeacher = TeacherRepository.get('blah');

@@ -37,7 +37,6 @@ describe('Student Repository', function () {
   });
   describe('get', function () {
     it('should get the student by name', function () {
-      console.log(Students)
       expect.spyOn(Students, 'findOne').andReturn(this.student);
 
       const actualStudent = StudentRepository.get(this.student.name);

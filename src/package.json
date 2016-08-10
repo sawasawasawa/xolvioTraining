@@ -3,7 +3,8 @@
     "classnames": "^2.2.5",
     "proxyquire": "^1.7.9",
     "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "react-dom": "^15.1.0",
+    "lodash": "^3.10.1"
   },
   "dependencies": {
     "moment": "^2.14.1"

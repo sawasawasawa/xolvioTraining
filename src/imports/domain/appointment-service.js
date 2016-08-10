@@ -25,7 +25,6 @@ export default class AppointmentService {
             appointmentResponse.isValid = false;
             return appointmentResponse;
         }
-        console.log('teacher PINGWIN', teacher);
         const result = teacher.diary.addAppointment({date, student});
         appointmentResponse.status = result.status;
         if (result.error) {
@@ -38,7 +37,6 @@ export default class AppointmentService {
             appointmentResponse.student = student;
             // HOMEWORK save the teacher using the teacher repository
         }
-        console.log('appointmentResponse PINGWIN', appointmentResponse);
         return appointmentResponse;
     }
 }

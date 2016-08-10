@@ -3,9 +3,11 @@ import Diary from './diary';
 
 export default class TeacherFactory {
 //todo change method name (witohut db)
-  static createFromDbObject({_id: id, diary}) {
+  static createFromDbObject({_id: id, diary} = {}) {
+    if( !id || !diary) {
+      return null;
+    }
     const _diary = new Diary(diary);
-    console.log('_diary PINGWIN', _diary.getAppointments);
     return new Teacher({id, diary: _diary});
   }
   static create() {
