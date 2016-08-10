@@ -1,7 +1,7 @@
 import proxyquire from 'proxyquire';
 const proxyquireStrict = proxyquire.noCallThru();
 import expect from 'expect';
-
+import TeacherFactory from './teacher-factory'
 
 const stubs = {
   meteor: {
@@ -38,19 +38,21 @@ describe('Teacher Repository', function () {
     };
   });
   describe('get', function () {
-    it('should get the teacher by id', function () {
-      expect.spyOn(Teachers, 'findOne').andReturn(this.teacher);
+    it('should get the teacher by id from teacher collection', function () {
+      const findOneSpy = expect.spyOn(Teachers, 'findOne').andReturn(this.teacher);
+      const createFromObjectSpy = expect.spyOn(TeacherFactory, 'createFromObject').andReturn(new Teacher({id: null, diary: null}));
 
-      const actualTeacher = TeacherRepository.get('blah');
+      TeacherRepository.get('someId');
+      expect(findOneSpy).toHaveBeenCalledWith('someId');
+      expect(createFromObjectSpy).toHaveBeenCalledWith(this.teacher);
 
-      expect(actualTeacher instanceof Teacher).toBe(true);
     });
-    it('should convert the diary object into an Diary instance', function () {
+    it('should return an object of type Teacher', function () {
       expect.spyOn(Teachers, 'findOne').andReturn(this.teacher);
+      expect.spyOn(TeacherFactory, 'createFromObject').andReturn(new Teacher({id: null, diary: null}));
 
-      const actualTeacher = TeacherRepository.get('blah');
-
-      expect(actualTeacher.diary instanceof Diary).toBe(true);
+      const actualTeacher = TeacherRepository.get('someId');
+      expect(actualTeacher instanceof Teacher).toBe(true);
     });
   });
   describe('insert', function () {
@@ -62,14 +64,14 @@ describe('Teacher Repository', function () {
       expect(Teachers.insert).toHaveBeenCalledWith(this.teacher);
     });
   });
-  // describe('update', function () {
-  //   it('should update the teacher', function () {
-  //     expect.spyOn(Teachers, 'update');
-  //     this.teacher._id = "doesntMatter";
-  //    
-  //     TeacherRepository.update(this.teacher);
-  //    
-  //     expect(Teachers.update).toHaveBeenCalledWith({_id: this.teacher._id}, {$set: {} });
-  //   });
-  // });
+  describe('update', function () {
+    it('should update the teacher', function () {
+      expect.spyOn(Teachers, 'update');
+      this.teacher._id = "doesntMatter";
+
+      TeacherRepository.update(this.teacher);
+
+      expect(Teachers.update).toHaveBeenCalledWith({_id: this.teacher._id}, {$set: {} });
+    });
+  });
 });

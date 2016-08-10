@@ -1,12 +1,12 @@
 import { Teachers } from '../infrastructure/collections';
 import TeacherFactory from './teacher-factory';
 import _ from 'lodash';
-import { Meteor } from 'meteor/meteor';
+// import { Meteor } from 'meteor/meteor';
 
 export default class TeacherRepository {
   static get(teacherId) {
     const rawTeacher = Teachers.findOne(teacherId);
-    return TeacherFactory.createFromDbObject(rawTeacher);
+    return TeacherFactory.createFromObject(rawTeacher);
   }
 
   static insert(teacher) {

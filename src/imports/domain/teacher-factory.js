@@ -3,7 +3,7 @@ import Diary from './diary';
 
 export default class TeacherFactory {
 //todo change method name (witohut db)
-  static createFromDbObject({_id: id, diary} = {}) {
+  static createFromObject({_id: id, diary} = {}) {
     if( !id || !diary) {
       return null;
     }
