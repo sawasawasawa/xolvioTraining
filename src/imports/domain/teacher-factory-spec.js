@@ -17,7 +17,7 @@ describe('Teacher Factory', function () {
       expect(TeacherFactory.create() instanceof Teacher).toBe(true);
     });
     it('should create a teacher based on raw teacher object', function () {
-      expect(TeacherFactory.createFromDbObject(this.rawTeacher) instanceof Teacher).toBe(true);
+      expect(TeacherFactory.createFromObject(this.rawTeacher) instanceof Teacher).toBe(true);
     });
     it('should create a diary', function () {
       const teacher = TeacherFactory.create();

@@ -6,7 +6,7 @@ import _ from 'lodash';
 export default class TeacherRepository {
   static get(teacherId) {
     const rawTeacher = Teachers.findOne(teacherId);
-    return TeacherFactory.createFromDbObject(rawTeacher);
+    return TeacherFactory.createFromObject(rawTeacher);
   }
 
   static insert(teacher) {
