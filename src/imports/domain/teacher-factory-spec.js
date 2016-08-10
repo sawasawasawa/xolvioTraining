@@ -6,7 +6,7 @@ import TeacherFactory from './teacher-factory'
 describe('Teacher Factory', function () {
   before(function () {
     this.rawTeacher = {
-      id: 'foo',
+      _id: 'foo',
       diary: {
           appointments: {},
       }

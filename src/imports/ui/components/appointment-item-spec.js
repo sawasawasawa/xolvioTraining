@@ -25,8 +25,8 @@ describe('Appointment Item', function () {
     });
     it('should show the time in correct format', function () {
       const props = {
-        date: new Date('10/05/2016 14:00').getTime()
-      };
+        appointment: { date: new Date('10/05/2016 14:00').getTime() },
+    };
 
       this.component = shallow(<AppointmentItem {...props} />);
 
@@ -35,24 +35,24 @@ describe('Appointment Item', function () {
     });
     it('should show the student name', function () {
       const props = {
-        studentName: "Name",
+        appointment: { student: { name: "Name" } },
       };
 
       this.component = shallow(<AppointmentItem {...props} />);
 
       expect(this.component.find('.appointment-item__student-name').length).toBe(1);
-      expect(this.component.find('.appointment-item__student-name').text()).toEqual(props.studentName);
+      expect(this.component.find('.appointment-item__student-name').text()).toEqual(props.appointment.student.name);
 
     });
     it('should show the student parent email', function () {
       const props = {
-        parentEmail: "parent@home.com",
+         appointment: { student: { parent: { email: "parent@home.com" } } },
       };
 
       this.component = shallow(<AppointmentItem {...props} />);
 
       expect(this.component.find('.appointment-item__parent-email').length).toBe(1);
-      expect(this.component.find('.appointment-item__parent-email').text()).toEqual(props.parentEmail);
+      expect(this.component.find('.appointment-item__parent-email').text()).toEqual(props.appointment.student.parent.email);
     });
   });
   describe('parseDate', function () {

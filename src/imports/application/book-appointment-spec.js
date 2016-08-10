@@ -23,7 +23,7 @@ const bookAppointment = proxyquireStrict(
   './book-appointment', {
     'meteor/meteor': stubs.meteor,
     '../domain/teacher-repository': teacherRepositorySpy,
-    '../domain/appointment-service': appointmentServiceSpy
+    '../domain/appointment-service': appointmentServiceSpy,
   }
 );
 

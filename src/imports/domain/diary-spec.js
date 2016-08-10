@@ -24,7 +24,8 @@ describe('Diary', function () {
         diary.addAppointment({date, student});
 
         expect(diary.getAppointment(date)).toEqual({
-          student
+          student,
+          date
         });
       });
       it('should return booked status', function () {
@@ -74,7 +75,7 @@ describe('Diary', function () {
 
       diary.addAppointment({date, student});
 
-      expect(diary.getAppointment(date)).toEqual({student});
+      expect(diary.getAppointment(date)).toEqual({student, date});
     });
   });
   describe('getAppointments', () => {
@@ -97,7 +98,7 @@ describe('Diary', function () {
       const actualAppointments = diary.getAppointments();
       expect(actualAppointments.length).toEqual(2);
 
-      expect(actualAppointments[1]).toEqual({student: _appointments[1].student});
+      expect(actualAppointments[1]).toEqual({student: _appointments[1].student, date: _appointments[1].date });
     })
   })
 });

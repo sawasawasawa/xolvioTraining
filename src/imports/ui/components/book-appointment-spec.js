@@ -15,6 +15,7 @@ const proxyquireStrict = proxyquire.noCallThru();
 
 import StudentFactory from '../../domain/student-factory';
 import TeacherFactory from '../../domain/teacher-factory';
+// import TeacherRepository from '../../domain/teacher-repository';
 
 const stubs = {
   meteor: {
@@ -33,6 +34,10 @@ const studentRepositoryStub = {
   get: () => StudentFactory.createStudent({ parentEmail: "parent@home.com", studentName: "Jon" })
 };
 
+const teacherRepositoryStub = {
+  get: () => TeacherFactory.create()
+};
+
 const getDataFromURLStub =() => ({teacherId: "doesntMatter", studentName: "id2"});
 
 const meteorCallSpy = expect.spyOn(stubs.meteor.Meteor, 'call');
@@ -42,8 +47,9 @@ const BookAppointment = proxyquireStrict(
     'meteor/meteor': stubs.meteor,
     'meteor/mongo': stubs.meteor,
     '../../domain/student-repository': studentRepositoryStub,
-    '../helpers/get-data-from-url': getDataFromURLStub
-  }
+    '../helpers/get-data-from-url': getDataFromURLStub,
+      '../../domain/teacher-repository': teacherRepositoryStub,
+    }
 );
 
 describe('Appointment', function () {
