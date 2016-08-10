@@ -1,12 +1,17 @@
-import Parent from './parent';
-import Student from './student';
+import Appointment from './appointment';
 
 export default class AppointmentRepository {
-    static createAppointment({parentEmail, studentName}) {
-        const parent = new Parent(parentEmail);
-        return new Student(studentName, parent);
+    static createAppointment({studentName, teacherId, date}) {
+        return new Appointment(studentName, teacherId, date);
     }
     static createFromDbObject(appointment) {
-        return this.createAppointment({studentName: appointment.studentName, teacherId: appointment.teacherId, date: appointment.date});
+        if (appointment) {
+            return this.createAppointment({
+                studentName: appointment.studentName,
+                teacherId: appointment.teacherId,
+                date: appointment.date
+            });
+        }
+        return [];
     }
 }

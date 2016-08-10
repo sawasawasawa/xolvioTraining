@@ -2,6 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import classNames from 'classNames'
 import StudentRepository from '../../domain/student-repository';
+import AppointmentRepository from '../../domain/appointment-repository';
 import getDataFromURL from '../helpers/get-data-from-url';
 import TeacherDiary from './teacher-diary';
 
@@ -37,6 +38,11 @@ export default class Appointment extends React.Component {
   }
 
   render() {
+    const {studentName, teacherId} = getDataFromURL();
+    const appointments = AppointmentRepository.get({studentName, teacherId});
+    console.log("PINGWIN: update", appointments);
+    // const appointments = [];
+
     return (
       <div className={this.elementClassNames.root}>
         <form onSubmit={this.submitAppointment}>
@@ -49,7 +55,7 @@ export default class Appointment extends React.Component {
           :
           null
         }
-        <TeacherDiary/>
+        <TeacherDiary appointments={appointments}/>
       </div>
     )
   }
@@ -60,14 +66,23 @@ export default class Appointment extends React.Component {
     let that = this;
     let {studentName, teacherId} = getDataFromURL();
     // TODO extract handler and unit test
+    const insertDate = new Date(this.state.date + ' ' + this.state.time);
     Meteor.call('bookAppointment', {
-      date: new Date(this.state.date + ' ' + this.state.time),
+      date: insertDate,
       student: StudentRepository.get(studentName),
       teacherId
     }, function (error, result) {
       if (!error) {
         confirmation = result.isValid ? 'success' : 'failure';
         that.setState({ confirmation });
+        if (confirmation === 'success') {
+          console.log('im in success');
+          AppointmentRepository.insert({
+            studentName,
+            teacherId,
+            date: insertDate
+          });
+        }
       } else {
         console.log('error PINGWIN', error);
       }
