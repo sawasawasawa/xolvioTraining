@@ -13,10 +13,7 @@ export default class TeacherRepository {
     return Teachers.insert(teacher);
   }
 
-  static update(teacherId, teacher) {
-    const updatedTeacher = _.clone(teacher);
-    updatedTeacher._id = teacherId;
-    delete updatedTeacher.id;
-    return Teachers.update({_id: teacherId}, updatedTeacher);
+  static update(teacher) {
+    return Teachers.update({_id: teacher._id}, teacher);
   }
 }

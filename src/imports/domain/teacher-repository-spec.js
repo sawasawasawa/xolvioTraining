@@ -71,7 +71,7 @@ describe('Teacher Repository', function () {
 
       TeacherRepository.update(this.teacher);
 
-      expect(Teachers.update).toHaveBeenCalledWith({_id: this.teacher._id}, {$set: {} });
+      expect(Teachers.update).toHaveBeenCalledWith({_id: this.teacher._id}, this.teacher );
     });
   });
 });
